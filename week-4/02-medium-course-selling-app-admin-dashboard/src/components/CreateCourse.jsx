@@ -1,0 +1,48 @@
+import { Button, Card, TextField } from "@mui/material";
+import React from "react";
+/// You need to add input boxes to take input for users to create a course.
+/// I've added one input so you understand the api to do it.
+function CreateCourse() {
+    const [form, setForm] = React.useState({published: true});
+
+
+    function handleform(e){
+        setForm({...form,[e.target.name]:e.target.value});
+    }
+
+    return <div style={{ display: "flex", justifyContent: "center" }}>
+        {/* <h1>Create Course Page</h1> */}
+        <Card style={{ width: 400, padding: 20 }}>
+            
+        <TextField fullWidth  id="outlined-basic" label="Title" name="title" variant="outlined" onChange={handleform} />
+        <br/>
+        <br/>
+        <TextField fullWidth id="outlined-basic" label="description" name="description" variant="outlined" onChange={handleform} />
+        <br/>
+        <br/>
+        <TextField fullWidth id="outlined-basic" label="price" name="price" variant="outlined" onChange={handleform} />
+        <br/>
+        <br/>
+        <TextField fullWidth id="outlined-basic" label="imageLink" name="imageLink" variant="outlined" onChange={handleform} />
+        <br/>
+        <br/>
+
+        <Button variant="contained" onClick={() =>{
+            const token=localStorage.getItem("adminToken")
+            console.log(form)
+            fetch("http://localhost:3000/admin/courses",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    Authorization:"Bearer "+token
+                },
+                body:JSON.stringify(form),
+            }).then((res)=>res.json())
+            .then((data)=>{
+                alert("course added")
+                console.log(data)})
+        }}>Create Course</Button>
+        </Card>
+    </div>
+}
+export default CreateCourse;
