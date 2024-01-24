@@ -124,6 +124,17 @@ app.post('/admin/courses',AuthAdmin,async (req, res) => {
   res.json({ message: 'Course created successfully', courseId: Course._id })
 });
 
+app.get('/admin/courses/:courseId',AuthAdmin,async (req, res) => {
+  // logic to edit a course
+  const id=req.params.courseId;
+  const course =await COURSE.findById(id) 
+  if(course){
+    res.json(course);
+  }else{
+    res.status(403).json({ message: 'Course doesnt exists' })
+  }
+});
+
 app.put('/admin/courses/:courseId',AuthAdmin,async (req, res) => {
   // logic to edit a course
   const update=req.body;

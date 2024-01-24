@@ -1,7 +1,7 @@
 import { Button, Card ,CardContent,CardMedia,TextField, Typography } from '@mui/material';
 import React from 'react'
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function Course() {
@@ -22,10 +22,10 @@ export default function Course() {
         setCourse(data)
       })
   }, [])
-
+  console.log("Course")
   return <div style={{ display: "flex", justifyContent: "center", marginTop: 80 }}>
     {/* <h1>Create Course Page</h1> */}
-    <CourseCard ></CourseCard>
+    <CourseCard />
     <UpdateCard />
     
   </div>
@@ -33,10 +33,11 @@ export default function Course() {
 
 
 function CourseCard() {
-  const navigate=useNavigate();
   const course=useRecoilValue(coursesState)
+  console.log("CourseCard")
+
   return (
-      <Card onClick={()=>navigate("/courses/"+course.id)} style={{ margin: 10}} key={course.id} sx={{ width: 300 }}>
+      <Card style={{ margin: 10}} key={course.id} sx={{ width: 300 }}>
           <CardMedia
               sx={{ height: 200 }}
               image={course.imageLink}
@@ -66,6 +67,7 @@ function UpdateCard(){
     setForm({ ...form, [e.target.name]: e.target.value });
     console.log(form)
   }
+  console.log("UpdateCard")
 
   return(
     <Card style={{ width: 400, padding: 20 }}>
@@ -85,7 +87,7 @@ function UpdateCard(){
 
       <Button variant="contained" onClick={() => {
         const token = localStorage.getItem("adminToken")
-        fetch("http://localhost:3000/admin/courses/" + form.id, {
+        fetch("http://localhost:3000/admin/courses/" + form._id, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

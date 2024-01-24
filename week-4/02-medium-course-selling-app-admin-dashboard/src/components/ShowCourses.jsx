@@ -18,7 +18,7 @@ function ShowCourses() {
             }
         }).then(res => res.json())
             .then((data) => {
-                // console.log(data);
+                console.log(data);
                 setCourses(data)
             })
     }, [])
@@ -38,7 +38,7 @@ function ShowCourses() {
 export function CourseCard(prop) {
     const navigate=useNavigate();
     return (
-        <Card onClick={()=>navigate("/courses/"+prop.course.id)} style={{ margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
+        <Card onClick={()=>navigate("/courses/"+prop.course._id)} style={{ margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
                         <CardMedia
                             sx={{ height: 200 }}
                             image={prop.course.imageLink}
