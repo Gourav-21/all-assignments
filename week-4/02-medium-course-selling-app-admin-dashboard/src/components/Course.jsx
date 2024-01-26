@@ -1,4 +1,5 @@
-import { Button, Card ,CardContent,CardMedia,TextField, Typography } from '@mui/material';
+import { Button, Card ,CardContent,CardMedia,Grid,TextField, Typography } from '@mui/material';
+import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom'
@@ -10,50 +11,68 @@ export default function Course() {
   // Add code to fetch courses from the server
   // and set it in the courses state variable.
   useEffect(() => {
-    const token = localStorage.getItem("adminToken")
-    fetch("http://localhost:3000/admin/courses/" + param.courseId, {
-      method: "GET",
+    axios.get("http://localhost:3000/admin/courses/" + param.courseId,{
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + localStorage.getItem("adminToken")
       }
-    }).then(res => res.json())
-      .then((data) => {
-        console.log(data)
-        setCourse(data)
-      })
+    }).then((res) => {
+      console.log(res.data)
+      setCourse(res.data)
+    })
   }, [])
   console.log("Course")
-  return <div style={{ display: "flex", justifyContent: "center", marginTop: 80 }}>
-    {/* <h1>Create Course Page</h1> */}
-    <CourseCard />
-    <UpdateCard />
-    
-  </div>
+  return (
+    <>
+      <GreyTopper />
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8} >
+          <div style={{width:"100%",margin:10,display:"flex",justifyContent:"center"}}>
+          <UpdateCard />
+
+          </div>
+        </Grid>
+        <Grid item xs={12} md={4} >
+          <CourseCard />
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+function GreyTopper(){
+  const course=useRecoilValue(coursesState)
+  return(
+    <div style={{background:"#212121",height:"250px",display:"flex",justifyContent:"center",placeItems:"center",zIndex:0,marginBottom:"-250px"}}>
+       <Typography style={{color:"white"}} textAlign={'center'} variant='h4'>{course.title}</Typography>
+    </div>
+       
+  )
 }
 
 
 function CourseCard() {
   const course=useRecoilValue(coursesState)
-  console.log("CourseCard")
 
   return (
-      <Card style={{ margin: 10}} key={course.id} sx={{ width: 300 }}>
+    <div style={{width:"100%",display:"flex",justifyContent:"center"}}>
+      <Card style={{ margin: 10,borderRadius:20,marginTop:50,marginLeft:20}} key={course.id} sx={{ width: 300 }}>
           <CardMedia
-              sx={{ height: 200 }}
+              sx={{ height: 170 }}
               image={course.imageLink}
           />
           <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                   {course.title}
               </Typography>
+              <Typography variant="subtitle2" color="text.secondary">
+                  Price
+              </Typography>
               <Typography gutterBottom variant="h6" component="div">
                   ${course.price}
               </Typography>
-              <Typography variant="subtitle2" color="text.secondary">
-                  {course.description}
-              </Typography>
           </CardContent>
       </Card>
+    </div>
   )
 }
 
@@ -67,10 +86,9 @@ function UpdateCard(){
     setForm({ ...form, [e.target.name]: e.target.value });
     console.log(form)
   }
-  console.log("UpdateCard")
 
   return(
-    <Card style={{ width: 400, padding: 20 }}>
+    <Card style={{ width: 400, padding: 20 , marginTop:170}}>
 
       <TextField value={form.title} fullWidth id="outlined-basic" label="Title" name="title" variant="outlined" onChange={handleform} />
       <br />
@@ -85,21 +103,13 @@ function UpdateCard(){
       <br />
       <br />
 
-      <Button variant="contained" onClick={() => {
-        const token = localStorage.getItem("adminToken")
-        fetch("http://localhost:3000/admin/courses/" + form._id, {
-          method: "PUT",
+      <Button variant="contained" onClick={async () => {
+        const res = await axios.put("http://localhost:3000/admin/courses/" + form._id, form, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token
-          },
-          body: JSON.stringify(form),
-        }).then((res) => res.json())
-          .then((data) => {
-            alert("course updated")
-            console.log(data)
-          })
-            // setCourse(form)
+            Authorization: "Bearer " + localStorage.getItem("adminToken")
+          }
+        })
+        alert("course updated")
       }}>update Course</Button>
     </Card>
   )

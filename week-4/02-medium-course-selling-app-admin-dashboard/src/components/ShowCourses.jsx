@@ -4,23 +4,20 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ShowCourses() {
     const [courses, setCourses] = React.useState([]);
     // Add code to fetch courses from the server
     // and set it in the courses state variable.
     useEffect(() => {
-        const token = localStorage.getItem("adminToken")
-        fetch("http://localhost:3000/admin/courses/", {
-            method: "GET",
+        axios.get("http://localhost:3000/admin/courses/", {
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: "Bearer " + localStorage.getItem("adminToken")
             }
-        }).then(res => res.json())
-            .then((data) => {
-                console.log(data);
-                setCourses(data)
-            })
+        }).then((res) => {
+            setCourses(res.data);
+        })
     }, [])
 
     return <div>

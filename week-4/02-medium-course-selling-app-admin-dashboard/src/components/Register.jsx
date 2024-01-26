@@ -2,6 +2,7 @@ import React from "react";
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import { Card, TextField, Typography } from "@mui/material";
+import axios from "axios";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
@@ -24,24 +25,14 @@ function Register() {
                 <TextField id="outlined-basic" type="password" value={password} fullWidth label="Password" variant="outlined" onChange={e => setPassword(e.target.value)} />
                 <br />
                 <br />
-                <Button size="large" variant="contained" onClick={() => {
-                    fetch("http://localhost:3000/admin/signup", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            "username": email,
-                            password
-                        }),
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }).then((res) => res.json())
-                        .then((data) => {
-                            localStorage.setItem('adminToken', data.token)
-                            setEmail("");
-                            setPassword("");
-                            window.location="/"
-
-                        })
+                <Button size="large" variant="contained" onClick={async () => {    
+                    const res=await axios.post("http://localhost:3000/admin/signup",{
+                        "username": email,
+                        password
+                    })
+                    let data=res.data
+                    localStorage.setItem('adminToken', data.token)
+                    window.location="/"
                 }} >register</Button>
                 <br />
                 <br />

@@ -1,4 +1,5 @@
 import { Button, Typography } from '@mui/material'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,26 +8,22 @@ export default function AppBar() {
   const [email, setEmail] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("adminToken")
-    fetch("http://localhost:3000/admin/me", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    }).then(res => res.json())
-      .then((data) => {
-        if (data) {
-          setEmail(data)
+      axios.get("http://localhost:3000/admin/me",{
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("adminToken")
         }
+      }).then((res)=>{
+        setEmail(res.data)
       })
   }, [])
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Typography variant='h6'>Coursera</Typography>
+    <div style={{ display: 'flex', justifyContent: 'space-between',padding:5 }}>
+      <Typography variant='h5'fontWeight={600}>Coursera</Typography>
       <div style={{ display: 'flex' }}>
         {email ? (
           <>
-            {email}
+            <Button onClick={() => navigate('/addcourse')}>ADD COURSES</Button>
+            <Button onClick={() => navigate('/courses')} >COURSES</Button>
             <Button variant="contained" onClick={() => {
               localStorage.removeItem("adminToken");
               setEmail(null)
