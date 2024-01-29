@@ -43,7 +43,7 @@ function GreyTopper(){
   const course=useRecoilValue(coursesState)
   return(
     <div style={{background:"#212121",height:"250px",display:"flex",justifyContent:"center",placeItems:"center",zIndex:0,marginBottom:"-250px"}}>
-       <Typography style={{ viewTransitionName:`heading-${course._id}`,color:"white"}} textAlign={'center'} variant='h4'>{course.title}</Typography>
+       <Typography style={{color:"white"}} textAlign={'center'} variant='h4'>{course.title}</Typography>
     </div>
        
   )
@@ -52,9 +52,10 @@ function GreyTopper(){
 
 function CourseCard() {
   const course=useRecoilValue(coursesState)
+
   return (
     <div style={{width:"100%",display:"flex",justifyContent:"center"}}>
-      <Card style={{viewTransitionName:`card-${course._id}`, margin: 10,borderRadius:20,marginTop:50,marginLeft:20}} key={course._id} sx={{ width: 300 }}>
+      <Card style={{ margin: 10,borderRadius:20,marginTop:50,marginLeft:20}} key={course.id} sx={{ width: 300 }}>
           <CardMedia
               sx={{ height: 170 }}
               image={course.imageLink}

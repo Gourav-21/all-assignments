@@ -1,6 +1,6 @@
 import React from "react";
 import Button from '@mui/material/Button';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, TextField, Typography } from "@mui/material";
 import axios from "axios";
 
@@ -8,7 +8,6 @@ import axios from "axios";
 function Register() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const navigate=useNavigate();
 
     return <div>
         <div style={{ paddingTop: 80, display: "flex", justifyContent: "center" }}>
@@ -38,7 +37,7 @@ function Register() {
                 <br />
                 <br />
                 <Typography variant="subtitle1">
-                    Already a user?<Link to={"../login"} >Login</Link>
+                    Already a user?<Link to={"/login"} >Login</Link>
                 </Typography>
             </Card>
         </div>

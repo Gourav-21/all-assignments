@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function AppBar() {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ export default function AppBar() {
       <div style={{ display: 'flex' }}>
         {email ? (
           <>
-            <Button onClick={() => navigate('admin/addcourse')}>ADD COURSES</Button>
-            <Button onClick={() => navigate('admin/courses')} >COURSES</Button>
+            <Button onClick={() => navigate('/addcourse')}>ADD COURSES</Button>
+            <Button onClick={() => navigate('/courses')} >COURSES</Button>
             <Button variant="contained" onClick={() => {
               localStorage.removeItem("adminToken");
               setEmail(null)
@@ -31,8 +31,8 @@ export default function AppBar() {
           </>
         ) : (
           <>
-            <Button variant="contained" onClick={() => navigate('admin/signup')}> Sign up</Button>
-            <Button variant="contained" onClick={() => navigate('admin/login')} >Sign in</Button>
+            <Button variant="contained" onClick={() => navigate('/signup')}> Sign up</Button>
+            <Button variant="contained" onClick={() => navigate('/login')} >Sign in</Button>
           </>
         )}
       </div>

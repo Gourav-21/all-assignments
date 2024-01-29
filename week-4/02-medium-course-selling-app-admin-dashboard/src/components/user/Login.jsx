@@ -34,16 +34,17 @@ function Login() {
                     })
                     const data=res.data
                     localStorage.setItem('adminToken', data.token)
-                    window.location="/admin"
+                    window.location="/"
                 }} >Login</Button>
                 <br />
                 <br />
                 <Typography variant="subtitle1">
-                New here? <Link  to={"../signup"} >Register</Link>
+                New here? <Link to={"/signup"} >Register</Link>
                 </Typography>
             </Card>
         </div>
     </div>
+    
 }
 
 export default Login;

@@ -5,7 +5,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { flushSync } from 'react-dom';
 
 function ShowCourses() {
     const [courses, setCourses] = React.useState([]);
@@ -35,27 +34,14 @@ function ShowCourses() {
 
 export function CourseCard(prop) {
     const navigate=useNavigate();
-    const viewNavigate = (newRoute) => {
-        // Navigate to the new route
-        if (!document.startViewTransition) {
-          return navigate(newRoute);
-        } else {
-          return document.startViewTransition(() => {
-            flushSync(() => {
-                navigate(newRoute);
-            });
-          });
-        }
-      };
-
     return (
-        <Card className="body" onClick={()=>viewNavigate("../courses/"+prop.course._id)} style={{viewTransitionName:`card-${prop.course._id}`, margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
+        <Card onClick={()=>navigate("/courses/"+prop.course._id)} style={{ margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
                         <CardMedia
                             sx={{ height: 200 }}
                             image={prop.course.imageLink}
                         />
                         <CardContent>
-                            <Typography style={{viewTransitionName:`heading-${prop.course._id}`}} gutterBottom variant="h5" component="div">
+                            <Typography gutterBottom variant="h5" component="div">
                                 {prop.course.title}
                             </Typography>
                             <Typography gutterBottom variant="h6" component="div">

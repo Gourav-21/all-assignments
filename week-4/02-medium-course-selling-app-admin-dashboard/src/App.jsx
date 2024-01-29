@@ -6,6 +6,7 @@ import Register from './components/Register';
 import ShowCourses from './components/ShowCourses';
 import AppBar from './components/AppBar';
 import Course from './components/Course';
+import './App.css';
 import {
     RecoilRoot,
     atom,
@@ -25,12 +26,20 @@ function App() {
                 <div style={{ backgroundColor: "#eeeeee", width: "100vw", height: "100vh" }}>
                     <AppBar />
                     <Routes>
-                        <Route path="/" element={<Landing />} />
+                        {/* <Route path="/" element={<Landing />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Register />} />
                         <Route path="/addcourse" element={<CreateCourse />} />
                         <Route path="/courses" element={<ShowCourses />} />
-                        <Route path="/courses/:courseId" element={<Course />} />
+                        <Route path="/courses/:courseId" element={<Course />} /> */}
+                        <Route path="/admin/">
+                            <Route index element={<Landing />} />
+                            <Route path="login" element={<Login />} />
+                            <Route path="signup" element={<Register />} />
+                            <Route path="addcourse" element={<CreateCourse />} />
+                            <Route path="courses" element={<ShowCourses />} />
+                            <Route path="courses/:courseId" element={<Course />} />
+                        </Route>
                     </Routes>
                 </div>
             </Router>
