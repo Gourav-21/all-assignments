@@ -1,13 +1,19 @@
 import React from "react";
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../store/atoms/user";
+import { BASE_URL } from "../config";
 
 /// File is incomplete. You need to add input boxes to take input for users to login.
 function Login() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const setUserEmail = useSetRecoilState(userState)
+    
+    const navigate = useNavigate();
 
     return <div>
         <div style={{ paddingTop: 80, display: "flex", justifyContent: "center" }}>
@@ -26,7 +32,7 @@ function Login() {
                 <br />
                 <br />
                 <Button size="large" variant="contained" onClick={async () => {
-                    const res= await axios.post("http://localhost:3000/admin/login",{},{
+                    const res= await axios.post(`${BASE_URL}/admin/login`,{},{
                         headers: {
                             "username": email,
                             "password": password,
@@ -34,12 +40,16 @@ function Login() {
                     })
                     const data=res.data
                     localStorage.setItem('adminToken', data.token)
-                    window.location="/admin"
+                    setUserEmail({
+                        userEmail: email,
+                        isLoading: false
+                    })
+                    navigate("/courses")
                 }} >Login</Button>
                 <br />
                 <br />
                 <Typography variant="subtitle1">
-                New here? <Link  to={"../signup"} >Register</Link>
+                New here? <Link  to={"/signup"} >Register</Link>
                 </Typography>
             </Card>
         </div>

@@ -1,26 +1,43 @@
 import { Button, Card ,CardContent,CardMedia,Grid,TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom'
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { courseState } from '../store/atoms/course';
+import { courseId, courseImageLink, coursePrice, courseTitle, isCourseLoading } from '../store/selectors/course';
+import Loading from './Loading';
+import { BASE_URL } from '../config';
 
 export default function Course() {
   const param = useParams();
-  const setCourse=useSetRecoilState(coursesState);
+  const setCourse=useSetRecoilState(courseState);
+  const isLoading=useRecoilValue(isCourseLoading)
   // Add code to fetch courses from the server
   // and set it in the courses state variable.
   useEffect(() => {
-    axios.get("http://localhost:3000/admin/courses/" + param.courseId,{
+    axios.get(`${BASE_URL}/admin/courses/` + param.courseId,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("adminToken")
       }
     }).then((res) => {
-      console.log(res.data)
-      setCourse(res.data)
+      setCourse({
+        isLoading:false,
+        course:res.data
+      })
+    }).catch((err) => {
+      setCourse({
+        isLoading:false,
+        course:null
+      })
     })
   }, [])
   console.log("Course")
+  
+  if(isLoading){
+    return <Loading />
+  }
+
   return (
     <>
       <GreyTopper />
@@ -40,35 +57,51 @@ export default function Course() {
 }
 
 function GreyTopper(){
-  const course=useRecoilValue(coursesState)
+  const id=useRecoilValue(courseId)
   return(
     <div style={{background:"#212121",height:"250px",display:"flex",justifyContent:"center",placeItems:"center",zIndex:0,marginBottom:"-250px"}}>
-       <Typography style={{ viewTransitionName:`heading-${course._id}`,color:"white"}} textAlign={'center'} variant='h4'>{course.title}</Typography>
+       <Typography style={{ viewTransitionName:`heading-${id}`,color:"white"}} textAlign={'center'} variant='h4'> <Title /></Typography>
     </div>
        
   )
 }
 
+function Title() {
+  const title = useRecoilValue(courseTitle);
+  return (
+    <>
+      {title}
+    </>
+  );
+}
 
-function CourseCard() {
-  const course=useRecoilValue(coursesState)
+function Price() {
+  const price = useRecoilValue(coursePrice);
+  return (
+    <Typography gutterBottom variant="h6" component="div">
+      ${price}
+    </Typography>
+  );
+}
+
+function CourseCard() { 
+  const imageLink=useRecoilValue(courseImageLink)
+  const id=useRecoilValue(courseId)
   return (
     <div style={{width:"100%",display:"flex",justifyContent:"center"}}>
-      <Card style={{viewTransitionName:`card-${course._id}`, margin: 10,borderRadius:20,marginTop:50,marginLeft:20}} key={course._id} sx={{ width: 300 }}>
+      <Card style={{viewTransitionName:`card-${id}`, margin: 10,borderRadius:20,marginTop:50,marginLeft:20}} key={id} sx={{ width: 300 }}>
           <CardMedia
               sx={{ height: 170 }}
-              image={course.imageLink}
+              image={imageLink}
           />
           <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                  {course.title}
+                  <Title />
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
                   Price
               </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                  ${course.price}
-              </Typography>
+            <Price />
           </CardContent>
       </Card>
     </div>
@@ -77,10 +110,9 @@ function CourseCard() {
 
 
 function UpdateCard(){
-  // const [form, setForm] = React.useState({ published: true });
-  const[form,setForm]=useRecoilState(coursesState);
-  // const setForm=useSetRecoilState(coursesState);
-
+  const [course,setCourse] = useRecoilState(courseState);
+  const [form, setForm] = useState(course.course);
+  
   function handleform(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
     console.log(form)
@@ -103,18 +135,17 @@ function UpdateCard(){
       <br />
 
       <Button variant="contained" onClick={async () => {
-        const res = await axios.put("http://localhost:3000/admin/courses/" + form._id, form, {
+        const res = await axios.put(`${BASE_URL}/admin/courses/` + form._id, form, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("adminToken")
           }
+        })
+        setCourse({
+          isLoading:false,
+          course:form
         })
         alert("course updated")
       }}>update Course</Button>
     </Card>
   )
 }
-
-const coursesState = atom({
-  key: 'coursesState', 
-  default: '', 
-});

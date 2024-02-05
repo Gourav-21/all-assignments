@@ -1,6 +1,7 @@
 import { Button, Card, TextField } from "@mui/material";
 import axios from "axios";
 import React from "react";
+import { BASE_URL } from "../config";
 /// You need to add input boxes to take input for users to create a course.
 /// I've added one input so you understand the api to do it.
 function CreateCourse() {
@@ -31,7 +32,7 @@ function CreateCourse() {
         <Button variant="contained" onClick={async () =>{
             const token=localStorage.getItem("adminToken")
             console.log(form)
-            await axios.post("http://localhost:3000/admin/courses",form,{
+            await axios.post(`${BASE_URL}/admin/courses`,form,{
                 headers:{
                     Authorization:"Bearer "+token
                 }

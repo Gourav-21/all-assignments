@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { flushSync } from 'react-dom';
+import { BASE_URL } from "../config";
 
 function ShowCourses() {
     const [courses, setCourses] = React.useState([]);
     // Add code to fetch courses from the server
     // and set it in the courses state variable.
     useEffect(() => {
-        axios.get("http://localhost:3000/admin/courses/", {
+        axios.get(`${BASE_URL}/admin/courses/`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("adminToken")
             }
@@ -36,7 +37,6 @@ function ShowCourses() {
 export function CourseCard(prop) {
     const navigate=useNavigate();
     const viewNavigate = (newRoute) => {
-        // Navigate to the new route
         if (!document.startViewTransition) {
           return navigate(newRoute);
         } else {
