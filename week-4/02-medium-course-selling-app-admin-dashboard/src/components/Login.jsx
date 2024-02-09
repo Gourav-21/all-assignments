@@ -17,13 +17,13 @@ function Login() {
 
     return <div>
         <div style={{ paddingTop: 80, display: "flex", justifyContent: "center" }}>
-            <Typography variant="h6">
-                <h1>Login to admin dashboard</h1>
+            <Typography variant="h5">
+                Login to admin dashboard
             </Typography>
         </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center",marginTop:20 }}>
 
-            <Card style={{ width: 400, padding: 20 }}>
+            <Card variant="outlined" style={{ width: 400, padding: 20 }}>
                 <br />
                 <TextField id="outlined-basic" value={email} fullWidth label="Email" onChange={e => setEmail(e.target.value)} variant="outlined" />
                 <br />

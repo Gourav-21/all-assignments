@@ -12,9 +12,9 @@ function CreateCourse() {
         setForm({...form,[e.target.name]:e.target.value});
     }
 
-    return <div style={{ display: "flex", justifyContent: "center" }}>
+    return <div style={{ display: "flex", justifyContent: "center",minHeight:"80vh",alignItems:"center" }}>
         {/* <h1>Create Course Page</h1> */}
-        <Card style={{ width: 400, padding: 20 }}>
+        <Card variant="outlined" style={{ width: 400, padding: 20 }}>
             
         <TextField fullWidth  id="outlined-basic" label="Title" name="title" variant="outlined" onChange={handleform} />
         <br/>

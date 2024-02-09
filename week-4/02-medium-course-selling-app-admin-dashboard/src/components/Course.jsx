@@ -45,7 +45,6 @@ export default function Course() {
         <Grid item xs={12} md={8} >
           <div style={{width:"100%",margin:10,display:"flex",justifyContent:"center"}}>
           <UpdateCard />
-
           </div>
         </Grid>
         <Grid item xs={12} md={4} >
@@ -119,7 +118,7 @@ function UpdateCard(){
   }
 
   return(
-    <Card style={{ width: 400, padding: 20 , marginTop:170}}>
+    <Card  variant="outlined" style={{ width: 600, padding: 20 , marginTop:170}}>
 
       <TextField value={form.title} fullWidth id="outlined-basic" label="Title" name="title" variant="outlined" onChange={handleform} />
       <br />

@@ -18,28 +18,42 @@ export default function AppBar() {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between',padding:5 }}>
-      <Typography variant='h5'fontWeight={600}>Coursera</Typography>
-      <div style={{ display: 'flex' }}>
+    <div
+      style={{ display: "flex", justifyContent: "space-between", padding: 5 }}
+    >
+      <div style={{ marginLeft: 10, cursor: "pointer" }} onClick={() => {navigate("/"); }}>
+        <Typography variant={"h6"}>Coursera</Typography>
+      </div>
+      <div style={{ marginRight: 20, display: "flex" }}>
         {email ? (
           <>
-            <Button onClick={() => navigate('/addcourse')}>ADD COURSES</Button>
-            <Button onClick={() => navigate('/courses')} >COURSES</Button>
-            <Button variant="contained" onClick={() => {
-              localStorage.removeItem("adminToken");
-              setEmail({
-                isLoading:false,
-                userEmail: null
-              })
-            }}>logout</Button>
+            <Button style={{ marginRight: 10}} onClick={() => navigate("/addcourse")}>ADD COURSES</Button>
+            <Button style={{ marginRight: 10}} onClick={() => navigate("/courses")}>COURSES</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                localStorage.removeItem("adminToken");
+                setEmail({
+                  isLoading: false,
+                  userEmail: null,
+                });
+              }}
+            >
+              logout
+            </Button>
           </>
         ) : (
           <>
-            <Button variant="contained" onClick={() => navigate('/signup')}> Sign up</Button>
-            <Button variant="contained" onClick={() => navigate('/login')} >Sign in</Button>
+            <Button style={{ marginRight: 10}} variant="contained" onClick={() => navigate("/signup")}>
+              {" "}
+              Sign up
+            </Button>
+            <Button variant="contained" onClick={() => navigate("/login")}>
+              Sign in
+            </Button>
           </>
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -21,7 +21,7 @@ function App() {
     return (
         <RecoilRoot>
             <Router>
-                <div style={{ backgroundColor: "#eeeeee", width: "100vw", height: "100vh" }}>
+                <div style={{  width: "100vw", height: "100vh" }}>
                     <AppBar />
                     <InitUser />
                     <Routes>

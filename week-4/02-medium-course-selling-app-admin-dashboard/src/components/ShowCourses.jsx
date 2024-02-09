@@ -21,9 +21,8 @@ function ShowCourses() {
             setCourses(res.data);
         })
     }, [])
-
     return <div>
-        <h1>Create Course Page</h1>
+        <Typography style={{marginLeft:10}}  variant="h4"> Courses</Typography>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
             {courses.map(c => {
                 return (
@@ -49,7 +48,7 @@ export function CourseCard(prop) {
       };
 
     return (
-        <Card className="body" onClick={()=>viewNavigate("../courses/"+prop.course._id)} style={{viewTransitionName:`card-${prop.course._id}`, margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
+        <Card  variant="outlined" className="body" onClick={()=>viewNavigate("../courses/"+prop.course._id)} style={{viewTransitionName:`card-${prop.course._id}`, margin: 10}} key={prop.course.id} sx={{ width: 300 }}>
                         <CardMedia
                             sx={{ height: 200 }}
                             image={prop.course.imageLink}

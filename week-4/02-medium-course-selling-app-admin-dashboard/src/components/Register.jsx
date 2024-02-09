@@ -17,13 +17,13 @@ function Register() {
 
     return <div>
         <div style={{ paddingTop: 80, display: "flex", justifyContent: "center" }}>
-            <Typography variant="h6">
-                <h1>Register to the website</h1>
+            <Typography variant="h5">
+                Register to the website
             </Typography>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
 
-            <Card style={{ width: 400, padding: 20 }}>
+            <Card variant="outlined" style={{ width: 400, padding: 20,marginTop:20 }}>
                 <br />
                 <TextField id="outlined-basic" fullWidth value={email} label="Email" onChange={e => setEmail(e.target.value)} variant="outlined" />
                 <br />
